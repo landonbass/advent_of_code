@@ -22,7 +22,7 @@ var deltas  = newSeq[int]()
 var mods    = newSeq[int]()
 
 for line in lines:
-    var row = newSeq[int]()
+    var row : seq[int] = @[]
     for cell in split(line, " "):
         if cell == "": break
         let value = parseInt(cell)
