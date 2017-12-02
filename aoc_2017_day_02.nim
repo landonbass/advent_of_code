@@ -22,29 +22,17 @@ var deltas  = newSeq[int]()
 var mods    = newSeq[int]()
 
 for line in lines:
-    var min = high(int)
-    var max = low(int)
     var row = newSeq[int]()
     for cell in split(line, " "):
         if cell == "": break
         let value = parseInt(cell)
         row.add value
-        if value > max: max = value
-        if value < min: min = value
-    sort(row, system.cmp)
-    var found = false
+    deltas.add(max(row)- min(row))
 
-    for x in 1..row.len-1:
-        let high = row[row.len - x]
-        for y in 0..row.len-2:
-            if row.len - x != row.len - y - 2:
-                let low  = row[row.len - y - 2]
-                if high mod low == 0 and not found: mods.add((high / low).int); found = true
-    deltas.add(max - min)
-
-
-
-
+    #much more readable than previous solution although it is slower as it tries x/y when x<y
+    for x in row:
+        for y in row:
+            if x mod y == 0 and x != y: mods.add((x/y).int)
 
 echo "checksum 1: ", if deltas.len > 0: foldl(deltas, a + b) else: 0
 echo "checksum 2: ", if mods.len > 0  : foldl(mods, a + b)   else: 0
