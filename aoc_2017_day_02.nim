@@ -1,8 +1,4 @@
-import sequtils, strutils
-
-#const input = """5 1 9 5
-#7 5 3
-#2 4 6 8"""
+import algorithm, sequtils, strutils
 
 const input = """1919 2959 82 507 3219 239 3494 1440 3107 259 3544 683 207 562 276 2963
 587 878 229 2465 2575 1367 2017 154 152 157 2420 2480 138 2512 2605 876
@@ -23,15 +19,32 @@ const input = """1919 2959 82 507 3219 239 3494 1440 3107 259 3544 683 207 562 2
 
 let lines   = splitLines input
 var deltas  = newSeq[int]()
+var mods    = newSeq[int]()
+
 for line in lines:
     var min = high(int)
     var max = low(int)
+    var row = newSeq[int]()
     for cell in split(line, " "):
         if cell == "": break
         let value = parseInt(cell)
+        row.add value
         if value > max: max = value
         if value < min: min = value
+    sort(row, system.cmp)
+    var found = false
 
+    for x in 1..row.len-1:
+        let high = row[row.len - x]
+        for y in 0..row.len-2:
+            if row.len - x != row.len - y - 2:
+                let low  = row[row.len - y - 2]
+                if high mod low == 0 and not found: mods.add((high / low).int); found = true
     deltas.add(max - min)
 
-echo "checksum: ", foldl(deltas, a + b)
+
+
+
+
+echo "checksum 1: ", if deltas.len > 0: foldl(deltas, a + b) else: 0
+echo "checksum 2: ", if mods.len > 0  : foldl(mods, a + b)   else: 0
