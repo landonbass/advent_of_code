@@ -1,4 +1,4 @@
-import sequtils, strutils
+import algorithm, sequtils, strutils
 
 const input = """una bokpr ftz ryw nau yknf fguaczl anu
 tvay wvco bcoblpt fwzg sfsys zvuqll mcbhwz ovcw fgdy
@@ -513,12 +513,25 @@ huo esajup ouj oju ujo
 eeeu hwvsk jfkmds okhi pogskfm itdlbll
 lpyubo dylpfb iehwug decj ntidy cuygyg lalkb iutu oxgm imn"""
 
-var valid   = 0
-
+var valid          = 0
+var validAnagram   = 0
 for line in splitLines(input):
-    var data = newSeq[string]()
+    var data       = newSeq[string]()
+    var sortedData = newSeq[string]()
     for str in split(line):
         if str != "": data.add str
-    if data == deduplicate data: inc valid
+        var strSeq = newSeq[string]()
+        for ch in 0..str.len-1:
+            strSeq.add $str[ch]
+        sort(strSeq, system.cmp)
+        sortedData.add join(strSeq)
+    if data == deduplicate data            : inc valid
+    if sortedData == deduplicate sortedData: inc validAnagram
+    sort(data, system.cmp)
+    echo sortedData
 
-echo valid
+
+
+
+echo "valid part 1: $#" % $valid
+echo "valid part 2: $#" % $validAnagram
