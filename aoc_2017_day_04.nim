@@ -530,8 +530,5 @@ for line in splitLines(input):
     sort(data, system.cmp)
     echo sortedData
 
-
-
-
 echo "valid part 1: $#" % $valid
 echo "valid part 2: $#" % $validAnagram
