@@ -47,6 +47,7 @@ for line in source:
     let comparisonValue = parseInt(atoms[6])
     program.add Line(target: register, instruction: instruction, source: source, comparison: comparison, comparisonValue: comparisonValue, amount: amount)
 
+var maxGlobal = low int 
 for line in program:
     let source = filter(registers, proc(r: Register): bool = r.name == line.source)[0]
     let target = filter(registers, proc(r: Register): bool = r.name == line.target)[0]
@@ -63,7 +64,8 @@ for line in program:
         let sign : int = if line.instruction == dec: -1 else : 1
         for i in 0..registers.len - 1:
             if registers[i].name == target.name: registers[i].value += sign * line.amount
-
+            if registers[i].value > maxGlobal:
+                maxGlobal = registers[i].value
 
 var max = low int 
 var maxName : string
@@ -72,4 +74,4 @@ for register in registers:
         max     = register.value
         maxName = register.name
 
-echo maxName & " " & $max
+echo maxName & " " & $max & " " & $maxGlobal
