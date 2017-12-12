@@ -26,6 +26,7 @@ proc traverseGraph(source: seq[Node], program: int, graph: HashSet[int]) : HashS
     let programRow = filter(source, proc(n: Node) : bool = n.source == program)[0]
     if programRow.source notin newGraph:
         newGraph.incl programRow.source
+        result.incl newGraph
     for target in programRow.targets:
         if target notin newGraph:
             newGraph.incl target
@@ -36,3 +37,14 @@ proc traverseGraph(source: seq[Node], program: int, graph: HashSet[int]) : HashS
 
 let res = traverseGraph(graphSource, 0, initSet[int]())
 echo "part 1:" & $res.len
+
+var groups = newSeq[HashSet[int]]()
+for row in graphSource:
+    let graph  = traverseGraph(graphSource, row.source, initSet[int]())
+    #echo $row.source & " " & $graph
+    var found = false
+    for group in groups:
+        if group == graph: found = true
+    if not found: groups.add graph
+
+echo "part 2:" & $groups.len
