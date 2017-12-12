@@ -1,13 +1,14 @@
 import math, memfiles, sequtils, strutils
 
 var source = newSeq[string]()
-for line in lines(memfiles.open("aoc_2017_day_11.dat")):
+for line in lines(memfiles.open("aoc_2017_day_11_train.dat")):
     source.add line
 for line in source:
     var distanceX = 0
     var distanceY = 0
     var distanceZ = 0
     let path = split(line, ",").map toLowerAscii
+    var maxDistance = 0
     for step in path:
         case step:
             of "n" : distanceY += 1; distanceZ -= 1
@@ -18,5 +19,7 @@ for line in source:
             of "s" : distanceY -= 1; distanceZ += 1
             of "se": distanceY -= 1; distanceZ += 1
             of "sw": distanceX -= 1; distanceZ += 1
+        let tempDistance = (abs(0 - distanceX) + abs(0 - distanceY) + abs(0 - distanceZ)) / 2
+        if tempDistance.int > maxDistance: maxDistance = tempDistance.int
     var distance = (abs(0 - distanceX) + abs(0 - distanceY) + abs(0 - distanceZ)) / 2
-    echo $distance
+    echo $distance & " " & $maxDistance
