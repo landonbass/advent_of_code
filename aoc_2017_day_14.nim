@@ -40,9 +40,28 @@ for x in 0..127:
         r &= toBin(ord z, 4)
     grid.add r 
 
+var grid2 = grid
+proc cleanseIsland(x, y : int) =
+    if grid2[x][y] == '0': return 
+    grid2[x][y] = '0'
+    if x < grid2.len - 1   : cleanseIsland(x + 1, y)
+    if x > 0               : cleanseIsland(x - 1, y)
+    if y < grid2[x].len - 1: cleanseIsland(x, y + 1)
+    if y > 0               : cleanseIsland(x, y - 1)
 
 var squares = 0
-for line in grid:
-    for sq in line:
-        if sq == '1': inc squares
+var islands = 0
+
+for line in 0..grid.len - 1:
+    for sq in 0..grid[line].len - 1:
+        if grid[line][sq] == '1': 
+            inc squares
+for line in 0..grid2.len - 1:
+    for sq in 0..grid2[line].len - 1:
+        if grid2[line][sq] == '1': 
+            inc islands
+            cleanseIsland(line, sq)
+
+
 echo squares
+echo islands
