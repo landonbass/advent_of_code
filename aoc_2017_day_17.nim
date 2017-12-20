@@ -8,3 +8,9 @@ for i in 1..2017:
 
 echo spinlock[location + 1]
 
+var ones = newSeq[int]()
+for i in 1..50_000_000:
+    location = (location + steps) mod i + 1
+    if location == 1: ones.add i
+
+echo ones.pop
