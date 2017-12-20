@@ -56,5 +56,5 @@ for x in 0..particles.len - 1:
         min  = particles[x].distance
         minI = x
 
-echo minI
+echo minI #not correct for part1 with part 2
 echo filter(particles, proc(p: Particle): bool = not p.isCollide).len
