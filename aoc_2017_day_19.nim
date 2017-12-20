@@ -43,4 +43,4 @@ while x < 1_000_000:
                     direction = left; dec currentX
     else: break               
 echo letters
-
+echo x
