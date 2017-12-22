@@ -10,14 +10,14 @@ var currentDirection = up
 var currentX         = (map[0].len/2).int
 var currentY         = (map.len/2).int
 var infected         = 0
-for x in 0..<10_000:
+for x in 0..<10_000_000:
     #echo "x:$# y:$# d:$#" % [$currentX, $currentY, $currentDirection]
-    if map[currentY][currentX] == '#':
+    if map[currentY][currentX] == 'F':
         case currentDirection:
-            of down : currentDirection = left
-            of up   : currentDirection = right
-            of left : currentDirection = up
-            of right: currentDirection = down
+            of down : currentDirection = up
+            of up   : currentDirection = down
+            of left : currentDirection = right
+            of right: currentDirection = left
         map[currentY][currentX] = '.'
     elif map[currentY][currentX] == '.':
         case currentDirection:
@@ -25,8 +25,18 @@ for x in 0..<10_000:
             of up   : currentDirection = left
             of left : currentDirection = down
             of right: currentDirection = up
+        map[currentY][currentX] = 'W'
+    elif map[currentY][currentX] == 'W':
         map[currentY][currentX] = '#'
         inc infected
+    elif map[currentY][currentX] == '#':
+        case currentDirection:
+            of down : currentDirection = left
+            of up   : currentDirection = right
+            of left : currentDirection = up
+            of right: currentDirection = down
+        map[currentY][currentX] = 'F'
+        
     
     case currentDirection:
         of down : inc currentY
@@ -50,3 +60,5 @@ for x in 0..<10_000:
         map = concat(map, @[newRow])
 
 echo "x: $# y:$# i:$# d:$#" % [$currentX, $currentY, $infected, $currentDirection]
+#for row in map:
+#   echo row
